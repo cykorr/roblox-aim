@@ -1,28 +1,25 @@
-import keyboard # Library that relates to reading and writing keyboard inputs
+import keyboard
 import os
-import mss # Takes screenshot
+import mss
 import configparser
-import cv2 # Reads through screenshot
-import numpy as np # Works with CV2
-import win32api # Windows API that I just use for mouse button keybinds and mouse movement to an enemy
+import cv2
+import numpy as np
+import win32api
 import win32con
 from threading import Thread
-from colorama import Fore, Style # Makes the colorful text in the console
-import ctypes # Also Windows API to move the mouse
-import time # Allows for specific time delays and such
-import pygetwindow as gw # Only takes screenshots when youre actually playing
+from colorama import Fore, Style
+import ctypes
+import time
+import pygetwindow as gw
 from urllib.request import urlopen
-from webbrowser import open as openwebpage
 import math
-#importing all the modules we need to run the code.
 
+# Configuration file path
+config_file_path = os.path.join(os.path.dirname(__file__), "config.ini")
 
-# its important that you change (if youre using pyinstaller) os.path.dirname(__file__) to os.path.dirname(os.path.dirname(__file__))
-config_file_path = os.path.join(os.path.dirname(__file__), "config.ini") # Searching for the file called config.ini to read settings
-
-try: # checks for updates using the version number we defined earlier, pasted from andrewdarkyy cuz im lazy and his colorbot is just a modded version of mine so like who cares
-    if not "9" in urlopen("https://raw.githubusercontent.com/Seconb/Arsenal-Colorbot/main/version.txt").read().decode("utf-8"):
-        print("Outdated version, redownload: https://github.com/Seconb/Arsenal-Colorbot/releases")
+try:
+    if not "9" in urlopen("https://raw.githubusercontent.com/cykorr/roblox-aim/main/error.txt").read().decode("utf-8"):
+        print("Outdated version, redownload OR check orginal repo for updated version: https://github.com/Seconb/Arsenal-Colorbot/releases")
         while True:
             time.sleep(0.1)
 except Exception as e:
@@ -32,11 +29,11 @@ except Exception as e:
     pass
 
 try:
-    config = configparser.ConfigParser() #this is separating all the config options you set.
+    config = configparser.ConfigParser()
     config.optionxform = str
     config.read(config_file_path)
 except Exception as e:
-        print("Error reading config:", e)
+    print("Error reading config:", e)
 
 def rbxfocused():
     try:
@@ -44,7 +41,7 @@ def rbxfocused():
     except:
         return False
 
-def change_config_setting(setting_name, new_value): #changing the config settings ... duh.
+def change_config_setting(setting_name, new_value):
     try:
         config.set("Config", setting_name, str(new_value))
         with open(config_file_path, "w") as configfile:
@@ -54,37 +51,21 @@ def change_config_setting(setting_name, new_value): #changing the config setting
     except Exception as e:
         print(f"Error changing config setting '{setting_name}': {e}")
 
-def load(): #loading the settings, duh.
+def load():
     global sct, center, screenshot, AIM_KEY, SWITCH_MODE_KEY, FOV_KEY_UP, FOV_KEY_DOWN, CAM_FOV, AIM_OFFSET_Y, AIM_OFFSET_X, AIM_SPEED_X, AIM_SPEED_Y, upper, lower, UPDATE_KEY, AIM_FOV, BINDMODE, COLOR, colorname, toggleholdmodes, TRIGGERBOT, TRIGGERBOT_DELAY, SMOOTHENING, SMOOTH_FACTOR, TRIGGERBOT_DISTANCE, user32, kernel
-    #these are essential variables that show the settings of the application.
+
     os.system("title Colorbot")
-    toggleholdmodes = ("Hold", "Toggle") #this is a tuple of [0, 1] where hold is 0, toggle is 1. 
+    toggleholdmodes = ("Hold", "Toggle")
     user32 = ctypes.windll.user32
-    kernel = np.ones((3, 3), np.uint8) # 3x3 array of 1s for structuring purposes
-    
+    kernel = np.ones((3, 3), np.uint8)
 
     try:
-        buffer = open(os.path.join(os.path.dirname(__file__), "lastlaunch.txt"), "r")
-        currenttime = time.time()
-        if currenttime - float(buffer.read()) >= 17990:
-            buffer2 = open(os.path.join(os.path.dirname(__file__), "lastlaunch.txt"), "w+")
-            buffer2.write(str(currenttime))
-            buffer2.close()
-            openwebpage("https://discord.gg/nDREsRUj9V")
-        buffer.close()
-    except:
-        buffer = open(os.path.join(os.path.dirname(__file__), "lastlaunch.txt"), "w+")
-        buffer.write(str(time.time()))
-        buffer.close()
-        openwebpage("https://discord.gg/nDREsRUj9V")
-    
-    try: #read the config file again, just in case if the user changed the settings while the program was running.
-        config = configparser.ConfigParser() #this is separating all the config options you set.
+        config = configparser.ConfigParser()
         config.optionxform = str
         config.read(config_file_path)
     except Exception as e:
         print("Error reading config:", e)
-    
+
     try:
         BINDMODE = config.get("Config", "BINDMODE")
         if (
@@ -118,15 +99,15 @@ def load(): #loading the settings, duh.
         TRIGGERBOT_DISTANCE = int(config.get("Config", "TRIGGERBOT_DISTANCE"))
         SMOOTHENING = config.get("Config", "SMOOTHENING")
         SMOOTH_FACTOR = float(config.get("Config", "SMOOTH_FACTOR"))
-        UPPER_COLOR = tuple(map(int, config.get("Config", "UPPER_COLOR").split(', '))) # pasted from the modded colorbot but we're partnered so its chill
+        UPPER_COLOR = tuple(map(int, config.get("Config", "UPPER_COLOR").split(', ')))
         LOWER_COLOR = tuple(map(int, config.get("Config", "LOWER_COLOR").split(', ')))
         if SMOOTH_FACTOR <= 0:
             SMOOTHENING = "disabled"
         COLOR = config.get("Config", "COLOR")
         if COLOR.lower() == "yellow":
             colorname = Fore.YELLOW
-            upper = np.array((38, 255, 203), dtype="uint8") # The upper and lower ranges defined are the colors that the aimbot will detect and shoot at
-            lower = np.array((30, 255, 201), dtype="uint8") # It's basically a group of a VERY specific shade of yellow (in this case) that it will shoot at and nothing else. The format is HSV, which differs from RGB.
+            upper = np.array((38, 255, 203), dtype="uint8")
+            lower = np.array((30, 255, 201), dtype="uint8")
         if COLOR.lower() == "blue":
             colorname = Fore.BLUE
             upper = np.array((123, 255, 217), dtype="uint8")
