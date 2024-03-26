@@ -1,4 +1,6 @@
 # Improved version by cykorr
+- removed annoying auto redirect to owner's discord
+- fixed few bugs
 
 # WIKI
 - See the wiki for a full usage guide and other usage information (i.e Troubleshooting).
