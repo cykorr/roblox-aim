@@ -336,7 +336,7 @@ def print_banner(b0t: trb0t): #Printing the information
         print(
             Style.BRIGHT
             + Fore.CYAN
-            + "https://discord.gg/nDREsRUj9V for configs and help!"
+            + "Removed discord by cykorr"
             + "\nIf you didn't download this from https://github.com/Seconb/Roblox-Colorbot, it's not legit!"
             + Style.RESET_ALL
         )
