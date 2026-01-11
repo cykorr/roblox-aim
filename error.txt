@@ -1,3 +1,0 @@
-Error 
-// version not up to date
-// please download from https://raw.githubusercontent.com/cykorr/roblox-aim/
