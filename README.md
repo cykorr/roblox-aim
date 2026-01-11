@@ -2,16 +2,13 @@
 - removed annoying auto redirect to owner's discord
 - fixed few bugs
 
-# WIKI
-- See the wiki for a full usage guide and other usage information (i.e Troubleshooting).
-- https://github.com/Seconb/Roblox-Colorbot/wiki
+# usage
+- See the page for a full usage guide and other usage information 
 
 # CREDITS
 
-- cykorr (tweaker)
-- Seconb (Primary developer)
-- AndrewDarkyy (https://github.com/AndrewDarkyy) (https://discord.gg/nDREsRUj9V) (Co-developer, contributed many features such as triggerbot, smoothening, version checker, and optimizations)
-- Befia/Taylor (Contributed some bugfixes and comments to explain certain areas of code, and added basic error handling. Not an actual developer for the project though)
+- cykorr (current developer)
+- Seconb (original developer)
 - Hariangr for their HSVRangeTool (https://github.com/hariangr/HsvRangeTool)
 
 # FEATURES
