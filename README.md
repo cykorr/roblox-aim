@@ -13,7 +13,7 @@
 
 # FEATURES
 
-- Colorbot based on the outlines around enemies in some Roblox games, namely: Arsenal, Aimblox, and Bad Business
+- Colorbot based on the outlines around enemies in some Roblox games, namely: Arsenal & Aimblox
 - Custom color feature which allows for multi-game support.
 - Triggerbot (automatically shoots enemies if enabled!)
 - Adjustable aim (where it aims like their head or their body, and the speed and distance it does that from)
